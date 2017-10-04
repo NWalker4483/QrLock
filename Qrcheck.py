@@ -30,6 +30,10 @@ def taek(found):
     for result in results:
         if len(results) != 0:
             cv2.line(image, result.position[0],result.position[1], (0, 0, 255), 4)
+            cv2.line(image, result.position[1],result.position[2], (0, 0, 255), 4)
+            cv2.line(image, result.position[2],result.position[3], (0, 0, 255), 4)
+            cv2.line(image, result.position[3],result.position[0], (0, 0, 255), 4)
+
             if ex.execute("SELECT name FROM allow_ids WHERE passkey = '{0}';".format(re.sub(r'['+chars+']', '',str(result.data.decode("utf-8"))[:10]))):
                 name=ex.fetchall()[0]['name']
                 #Centers the text
