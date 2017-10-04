@@ -3,6 +3,7 @@ import cv2
 import pymysql
 import imutils
 from PIL import Image
+import string
 import re
 db=pymysql.connect(host="sql9.freemysqlhosting.net", user="sql9197760", passwd="hwIDaFzRZA", db="sql9197760")
 ex=db.cursor(pymysql.cursors.DictCursor)
