@@ -1,6 +1,6 @@
+print("Loading...")
 import zbar
 import cv2
-import the necessary packages
 import pymysql
 from PIL import Image
 from string import punctuation
@@ -13,11 +13,11 @@ from picamera import PiCamera
 #Setup pins for output
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(18,GPIO.OUT)
+GPIO.setup(27,GPIO.OUT)
 GPIO.setup(17,GPIO.OUT)
 GPIO.setup(4,GPIO.OUT)
 tb=GPIO.PWM(4,50)
-tb.start(7.5)
+tb.start(12.5)
 print("Resetting")
 time.sleep(1)
 tb.stop()
@@ -40,25 +40,25 @@ try:
     scanner = zbar.Scanner()
 except:
     scanner = zbar.ImageScanner()
-def Granted(yit):
+def Granted(yit,state):
     for i in range(yit):
         time.sleep(.3)
-        GPIO.output(18,GPIO.HIGH)
+        GPIO.output(27,GPIO.HIGH)
         time.sleep(.3)
-        GPIO.output(18,GPIO.LOW)
-        if isLocked:
-            tb.start()
-            tb.ChangeDutyCycle(12.5)
-            time.sleep(1)
-            tb.stop()
-            isLocked=False
+        GPIO.output(27,GPIO.LOW)
+    if state:
+        tb.start(0)
+        time.sleep(1.5)
+        tb.stop()
+        isLocked=state
 def Denied(yit):
     for i in range(yit):
         time.sleep(.3)
         GPIO.output(17,GPIO.HIGH)
         time.sleep(.3)
         GPIO.output(17,GPIO.LOW)
-Granted(12)
+    print("Access Denied")
+Granted(12,isLocked)
 isLocked=True
 print("Processing started")
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -71,7 +71,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     for result in results:
         if len(results) != 0:
             if ex.execute("SELECT name FROM allow_ids WHERE passkey = '{0}';".format(re.sub(r'['+chars+']', '',str(result.data.decode("utf-8"))))):
-                Granted(8)
+                name=ex.fetchall()[0]['name']
+                print("Welcome, {0}".format(name))
+                Granted(8,isLocked)
                 time.sleep(3)
             else:
                 Denied(8)
@@ -81,3 +83,6 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
+GPIO.cleanup()
+print("Closing...")
+camera.close()
