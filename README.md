@@ -13,6 +13,7 @@ This Project is compatible with Python 2 & 3 and is capable of connecting with e
 ### Notes
 * >This project uses an SQL Server to store Auth. Keys. So it will be neccessary to either setup a server to hold your keys and reconfigure the script change the Id storage method.
 * >Before running on the Pi make sure the camera is enabled running ``` sudo raspi-config ``` and enabling the camera.
+* >While this program can also decode barcodes it is significantly less consistent.
 
 ### Id Table format
 |id int|name varchar(25)|pass_key(varchar(10))|
