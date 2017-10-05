@@ -1,6 +1,6 @@
 import zbar
 import cv2
-import pymysql
+import pymysql 
 import imutils
 from PIL import Image
 import string
