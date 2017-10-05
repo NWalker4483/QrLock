@@ -47,10 +47,15 @@ def Granted(yit,state):
         time.sleep(.3)
         GPIO.output(27,GPIO.LOW)
     if state:
-        tb.start(0)
-        time.sleep(1.5)
+        tb.start(1.5)
+        time.sleep(1)
         tb.stop()
         isLocked=state
+        #Relocks for Demo purpose
+        time.sleep(3)
+        tb.start(12.5)
+        time.sleep(1)
+        tb.stop()
 def Denied(yit):
     for i in range(yit):
         time.sleep(.3)
@@ -61,28 +66,29 @@ def Denied(yit):
 Granted(12,isLocked)
 isLocked=True
 print("Processing started")
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    #(_,image) = cam.read() 
-    image = frame.array
-    nimage = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    nimage = Image.fromarray(nimage)
-    
-    results = scanner.scan(nimage)
-    for result in results:
-        if len(results) != 0:
-            if ex.execute("SELECT name FROM allow_ids WHERE passkey = '{0}';".format(re.sub(r'['+chars+']', '',str(result.data.decode("utf-8"))))):
-                name=ex.fetchall()[0]['name']
-                print("Welcome, {0}".format(name))
-                Granted(8,isLocked)
-                time.sleep(3)
-            else:
-                Denied(8)
-    key = cv2.waitKey(1) & 0xFF
-	# clear the stream in preparation for the next frame
-    rawCapture.truncate(0)
-    # if the `q` key was pressed, break from the loop
-    if key == ord("q"):
-        break
-GPIO.cleanup()
-print("Closing...")
-camera.close()
+try:
+    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+        #(_,image) = cam.read() 
+        image = frame.array
+        nimage = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+        nimage = Image.fromarray(nimage)
+        
+        results = scanner.scan(nimage)
+        for result in results:
+            if len(results) != 0:
+                if ex.execute("SELECT name FROM allow_ids WHERE passkey = '{0}';".format(re.sub(r'['+chars+']', '',str(result.data.decode("utf-8"))))):
+                    name=ex.fetchall()[0]['name']
+                    print("Welcome, {0}".format(name))
+                    Granted(6,isLocked)
+                else:
+                    Denied(6)
+        key = cv2.waitKey(1) & 0xFF
+        # clear the stream in preparation for the next frame
+        rawCapture.truncate(0)
+        # if the `q` key was pressed, break from the loop
+        if key == ord("q"):
+            break
+except KeyboardInterrupt:
+    GPIO.cleanup()
+    print("Closing...")
+    camera.close()
