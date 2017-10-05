@@ -1,7 +1,7 @@
 # QrLock
 A Raspberry pi implementation of ZBar Based Locking system
 
-This Poject is compatible with Python 2 & 3 and is capable of connecting with either ``` cv2.VideoCapture() or from picamera import PiCamera```
+This Project is compatible with Python 2 & 3 and is capable of connecting with either ``` cv2.VideoCapture() or from picamera import PiCamera```
 ## Dependencies/Modules
 * A webcam or Picamera module (Rev 1.3 was used in this project)
 * zbar (Use zbar-py when installing as the default module is missing neccesary attributes)
