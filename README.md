@@ -27,6 +27,7 @@ This Project is compatible with Python 2 & 3 and is capable of connecting with e
 * Combining Mac an Pi versions of the script with os detection
 * Allow sshing into the build 
 * Create & Print enclosure in CAD
+* Hosting a local server to hold Access Keys 
 * Print Messages to 16x2 Character LCD
 ### Additional Documentation
 * [GPIO Pinout Details](https://pinout.xyz)

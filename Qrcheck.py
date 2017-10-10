@@ -40,6 +40,7 @@ def taek(found):
                 name=ex.fetchall()[0]['name']
                 #Centers the text
                 CenterText("Welcome, {0}".format(name),image,(0,255,0))
+                print(result.data)
             else:
                 CenterText("ACCESS DENIED",image,(0,0,255))
     return image,found
@@ -50,4 +51,5 @@ while True and found == False:
     if key == ord("q"):
         break
 cam.release()
+
 #
