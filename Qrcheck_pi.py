@@ -52,15 +52,17 @@ def Granted(yit,state):
             GPIO.output(27,GPIO.LOW)
         isLocked=state
         #Relocks for Demo purpose
+        time.sleep(3)
         tb.start(12.5)
         time.sleep(1)
         tb.stop()
     else:
-        for i in range(yit):
-            time.sleep(.3)
-            GPIO.output(27,GPIO.HIGH)
-            time.sleep(.3)
-            GPIO.output(27,GPIO.LOW)
+        pass
+    for i in range(yit):
+        time.sleep(.3)
+        GPIO.output(27,GPIO.HIGH)
+        time.sleep(.3)
+        GPIO.output(27,GPIO.LOW)
 def Denied(yit):
     print("Access Denied")
     for i in range(yit):
@@ -68,7 +70,7 @@ def Denied(yit):
         GPIO.output(17,GPIO.HIGH)
         time.sleep(.3)
         GPIO.output(17,GPIO.LOW)
-    print("Access Denied")
+    
 Granted(12,isLocked)
 isLocked=True
 print("Processing started")
