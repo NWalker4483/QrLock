@@ -55,12 +55,12 @@ def Granted(yit,state):
         tb.start(12.5)
         time.sleep(1)
         tb.stop()
-        else:
-            for i in range(yit):
-                time.sleep(.3)
-                GPIO.output(27,GPIO.HIGH)
-                time.sleep(.3)
-                GPIO.output(27,GPIO.LOW)
+    else:
+        for i in range(yit):
+            time.sleep(.3)
+            GPIO.output(27,GPIO.HIGH)
+            time.sleep(.3)
+            GPIO.output(27,GPIO.LOW)
 def Denied(yit):
     print("Access Denied")
     for i in range(yit):
